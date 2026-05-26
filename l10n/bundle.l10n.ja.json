@@ -1,7 +1,14 @@
 {
     "stand: Select Memo Folder": "stand: メモフォルダを選択",
     "stand: Select Workspace Folder": "stand: ワークスペースフォルダを選択",
+    "Convert to Workspace": "ワークスペースに変換",
+    "Just Convert": "変換のみ",
+    "Add current folder only": "現在のフォルダのみ追加",
+    "Add Memo Folder": "メモフォルダも追加",
+    "Add current folder and memo folder": "現在のフォルダとメモフォルダを追加",
     "No workspace is open": "ワークスペースが開かれていません",
+    "A workspace is already open": "既にワークスペースを開いています",
+    ".code-workspace file already exists": ".code-workspace ファイルが既に存在します",
     "Select main folder for this workspace": "このワークスペースのメインフォルダを選択",
     "New Memo": "新規メモ",
     "Enter memo name": "メモ名を入力"

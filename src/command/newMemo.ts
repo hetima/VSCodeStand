@@ -1,37 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-
-async function resolveWorkspaceMainFolder(): Promise<vscode.WorkspaceFolder | undefined> {
-	const folders = vscode.workspace.workspaceFolders;
-	if (!folders || folders.length === 0) {
-		vscode.window.showErrorMessage(vscode.l10n.t('No workspace is open'));
-		return undefined;
-	}
-	if (folders.length === 1) {
-		return folders[0];
-	}
-
-	const config = vscode.workspace.getConfiguration('vscode-stand');
-	const savedName = config.get<string>('workspaceMainFolder', '');
-	if (savedName) {
-		const found = folders.find(f => f.name === savedName);
-		if (found) {
-			return found;
-		}
-	}
-
-	const picked = await vscode.window.showQuickPick(
-		folders.map(f => ({ label: f.name, folder: f })),
-		{ title: vscode.l10n.t('Select main folder for this workspace') }
-	);
-	if (!picked) {
-		return undefined;
-	}
-
-	await config.update('workspaceMainFolder', picked.folder.name, vscode.ConfigurationTarget.Workspace);
-	return picked.folder;
-}
+import { resolveDir, resolveWorkspaceMainFolder } from '../workspaceUtil';
 
 export async function newMemoCommand() {
 	const mainFolder = await resolveWorkspaceMainFolder();
@@ -50,14 +20,8 @@ export async function newMemoCommand() {
 	const config = vscode.workspace.getConfiguration('vscode-stand');
 	const memoDir = config.get<string>('memoDir', '');
 
-	let filePath: string;
-	if (!memoDir || memoDir === '.') {
-		filePath = path.join(mainFolder.uri.fsPath, `${memoName}.md`);
-	} else if (path.isAbsolute(memoDir)) {
-		filePath = path.join(memoDir, mainFolder.name, `${memoName}.md`);
-	} else {
-		filePath = path.join(mainFolder.uri.fsPath, memoDir, `${memoName}.md`);
-	}
+	const dir = resolveDir(memoDir, mainFolder.name, mainFolder.uri.fsPath);
+	const filePath = path.join(dir, `${memoName}.md`);
 
 	if (!fs.existsSync(filePath)) {
 		fs.mkdirSync(path.dirname(filePath), { recursive: true });

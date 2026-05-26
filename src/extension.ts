@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { convertToWorkspaceCommand } from './command/convertToWorkspace';
 import { newMemoCommand } from './command/newMemo';
 import { selectMemoDirCommand } from './command/selectMemoDir';
 import { selectWorkspaceDirCommand } from './command/selectWorkspaceDir';
@@ -20,5 +21,10 @@ export function activate(context: vscode.ExtensionContext) {
 		newMemoCommand
 	);
 
-	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd);
+	const convertToWorkspaceCmd = vscode.commands.registerCommand(
+		'extension.convertToWorkspace',
+		convertToWorkspaceCommand
+	);
+
+	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, convertToWorkspaceCmd);
 }

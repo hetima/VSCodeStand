@@ -31,6 +31,10 @@
 			{
 				"command": "extension.newMemo",
 				"title": "%extension.newMemo.title%"
+			},
+			{
+				"command": "extension.convertToWorkspace",
+				"title": "%extension.convertToWorkspace.title%"
 			}
 		],
 		"menus": {
