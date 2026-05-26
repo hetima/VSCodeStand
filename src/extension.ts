@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { selectMemoDirCommand } from './command/selectMemoDir';
+import { selectWorkspaceDirCommand } from './command/selectWorkspaceDir';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -8,5 +9,10 @@ export function activate(context: vscode.ExtensionContext) {
 		selectMemoDirCommand
 	);
 
-	context.subscriptions.push(selectMemoDirCmd);
+	const selectWorkspaceDirCmd = vscode.commands.registerCommand(
+		'extension.selectWorkspaceDir',
+		selectWorkspaceDirCommand
+	);
+
+	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd);
 }
