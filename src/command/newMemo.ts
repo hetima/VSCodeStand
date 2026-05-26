@@ -20,12 +20,13 @@ export async function newMemoCommand() {
 	const config = vscode.workspace.getConfiguration('vscode-stand');
 	const memoDir = config.get<string>('memoDir', '');
 
+	const safeFileName = memoName.replace(/[\\/:*?"<>|]/g, '_');
 	const dir = resolveDir(memoDir, mainFolder.name, mainFolder.uri.fsPath);
-	const filePath = path.join(dir, `${memoName}.md`);
+	const filePath = path.join(dir, `${safeFileName}.md`);
 
 	if (!fs.existsSync(filePath)) {
 		fs.mkdirSync(path.dirname(filePath), { recursive: true });
-		fs.writeFileSync(filePath, '');
+		fs.writeFileSync(filePath, `# ${memoName}\n`);
 	}
 
 	const doc = await vscode.workspace.openTextDocument(filePath);
