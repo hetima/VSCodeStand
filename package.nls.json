@@ -1,4 +1,4 @@
 {
-	"extension.sayHello.title": "Hello",
-	"extension.sayBye.title": "Bye"
+	"extension.selectMemoDir.title": "stand: Select Memo Folder",
+	"vscode-stand.memoDir.description": "a folder to save memo"
 }

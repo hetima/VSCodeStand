@@ -1,4 +1,4 @@
 {
-	"extension.sayHello.title": "こんにちは",
-	"extension.sayBye.title": "さようなら"
+	"extension.selectMemoDir.title": "stand: メモフォルダを選択",
+	"vscode-stand.memoDir.description": "メモを保存するフォルダ"
 }

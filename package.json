@@ -21,14 +21,20 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.sayHello",
-				"title": "%extension.sayHello.title%"
-			},
-			{
-				"command": "extension.sayBye",
-				"title": "%extension.sayBye.title%"
+				"command": "extension.selectMemoDir",
+				"title": "%extension.selectMemoDir.title%"
 			}
-		]
+		],
+		"configuration": {
+			"title": "VSCodeStand",
+			"properties": {
+				"vscode-stand.memoDir": {
+					"type": "string",
+					"default": "",
+					"description": "%vscode-stand.memoDir.description%"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "pnpm compile",

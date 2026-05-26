@@ -1,6 +1,3 @@
 {
-    "Bye": "さようなら",
-    "Hello": "こんにちは",
-    "Hello {0}": "こんにちは {0}",
-    "Hello {done}":"こんにちは {done}"
+    "stand: Select Memo Folder": "stand: メモフォルダを選択"
 }
