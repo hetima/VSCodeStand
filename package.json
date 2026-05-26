@@ -27,14 +27,30 @@
 			{
 				"command": "extension.selectWorkspaceDir",
 				"title": "%extension.selectWorkspaceDir.title%"
+			},
+			{
+				"command": "extension.newMemo",
+				"title": "%extension.newMemo.title%"
 			}
 		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.newMemo",
+					"group": "1_workspace@100"
+				}
+			]
+		},
 		"configuration": {
 			"title": "VSCodeStand",
 			"properties": {
+"vscode-stand.workspaceMainFolder": {
+					"type": "string",
+					"default": ""
+				},
 				"vscode-stand.memoDir": {
 					"type": "string",
-					"default": "",
+					"default": ".memo",
 					"markdownDescription": "%vscode-stand.memoDir.description%"
 				},
 				"vscode-stand.workspaceDir": {

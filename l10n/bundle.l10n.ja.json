@@ -1,4 +1,8 @@
 {
     "stand: Select Memo Folder": "stand: メモフォルダを選択",
-    "stand: Select Workspace Folder": "stand: ワークスペースフォルダを選択"
+    "stand: Select Workspace Folder": "stand: ワークスペースフォルダを選択",
+    "No workspace is open": "ワークスペースが開かれていません",
+    "Select main folder for this workspace": "このワークスペースのメインフォルダを選択",
+    "New Memo": "新規メモ",
+    "Enter memo name": "メモ名を入力"
 }

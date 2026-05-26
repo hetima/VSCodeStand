@@ -1,4 +1,5 @@
 {
+	"extension.newMemo.title": "stand: New Memo",
 	"extension.selectMemoDir.title": "stand: Select Memo Folder",
 	"vscode-stand.memoDir.description": "a folder to save memo. Full path is the common root path, relative path is the individual path.",
 	"extension.selectWorkspaceDir.title": "stand: Select Workspace Folder",
