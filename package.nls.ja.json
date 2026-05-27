@@ -4,5 +4,6 @@
 	"extension.selectMemoDir.title": "stand: メモフォルダを選択",
 	"vscode-stand.memoDir.description": "メモを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
 	"extension.selectWorkspaceDir.title": "stand: ワークスペースフォルダを選択",
-	"vscode-stand.workspaceDir.description": "ワークスペースを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。"
+	"vscode-stand.workspaceDir.description": "ワークスペースを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
+	"vscode-stand.workspaceMainFolder.description": "マルチルートワークスペース時のメインフォルダ名。(ワークスペースごとに自動設定されます。ユーザースコープでは設定しないでください！)"
 }

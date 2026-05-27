@@ -48,9 +48,10 @@
 		"configuration": {
 			"title": "VSCodeStand",
 			"properties": {
-"vscode-stand.workspaceMainFolder": {
+				"vscode-stand.workspaceMainFolder": {
 					"type": "string",
-					"default": ""
+					"default": "",
+					"description": "%vscode-stand.workspaceMainFolder.description%"
 				},
 				"vscode-stand.memoDir": {
 					"type": "string",
