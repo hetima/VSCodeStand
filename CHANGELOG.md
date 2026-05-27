@@ -4,7 +4,7 @@ All notable changes to the "VSCodeStand" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.1.0] - 2026-05-27
 
 - Add `stand: New Memo` command (and explorer context menu). Creates and opens a Markdown file with the given memo name
 - Add `stand: Convert to Workspace` command. Creates a `.code-workspace` file from the current folder and opens it
