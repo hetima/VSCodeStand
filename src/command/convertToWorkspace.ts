@@ -71,7 +71,7 @@ export async function convertToWorkspaceCommand() {
 	}
 
 	fs.mkdirSync(path.dirname(workspaceFilePath), { recursive: true });
-	fs.writeFileSync(workspaceFilePath, JSON.stringify(workspaceContent, null, '\t'));
+	fs.writeFileSync(workspaceFilePath, JSON.stringify(workspaceContent, null, '\t') + '\n');
 
 	const doc = await vscode.workspace.openTextDocument(workspaceFilePath);
 	await vscode.window.showTextDocument(doc);
