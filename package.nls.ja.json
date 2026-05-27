@@ -3,6 +3,7 @@
 	"extension.convertToWorkspace.title": "stand: ワークスペースに変換",
 	"extension.selectMemoDir.title": "stand: メモフォルダを選択",
 	"vscode-stand.memoDir.description": "メモを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
+	"vscode-stand.memoEol.description": "新規メモファイルの改行コード（LF または CRLF）。選択テキストもこの設定に変換されます。",
 	"extension.selectWorkspaceDir.title": "stand: ワークスペースフォルダを選択",
 	"vscode-stand.workspaceDir.description": "ワークスペースを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
 	"vscode-stand.workspaceMainFolder.description": "マルチルートワークスペース時のメインフォルダ名。(ワークスペースごとに自動設定されます。ユーザースコープでは設定しないでください！)"

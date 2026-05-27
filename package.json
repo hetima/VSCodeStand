@@ -58,6 +58,12 @@
 					"default": "",
 					"markdownDescription": "%vscode-stand.memoDir.description%"
 				},
+				"vscode-stand.memoEol": {
+					"type": "string",
+					"enum": ["LF", "CRLF"],
+					"default": "LF",
+					"description": "%vscode-stand.memoEol.description%"
+				},
 				"vscode-stand.workspaceDir": {
 					"type": "string",
 					"default": "",
