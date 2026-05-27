@@ -28,6 +28,10 @@ Creates a `.code-workspace` file from the currently open folder.
 
 The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (used to resolve the memo save location) and `terminal.integrated.cwd` (to pin the terminal's initial working directory).
 
+
+![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
+
+
 ## Commands
 
 | Command | Description |

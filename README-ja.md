@@ -26,6 +26,10 @@
 
 上記メモファイルの保存場所を決定する `vscode-stand.workspaceMainFolder` と、ターミナルの初期カレントディレクトリを固定する `terminal.integrated.cwd` が最初から記入されています。
 
+
+![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
+
+
 ## コマンド
 
 | コマンド | 説明 |
