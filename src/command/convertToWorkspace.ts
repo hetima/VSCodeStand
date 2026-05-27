@@ -61,6 +61,7 @@ export async function convertToWorkspaceCommand() {
 		folders,
 		settings: {
 			'vscode-stand.workspaceMainFolder': mainFolder.name,
+			'terminal.integrated.cwd': mainFolder.uri.fsPath,
 		},
 	};
 
