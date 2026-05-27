@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/hetima/vscode-stand"
+		"url": "https://github.com/hetima/VSCodeStand"
 	},
 	"engines": {
 		"vscode": "^1.120.0"
@@ -55,7 +55,7 @@
 				},
 				"vscode-stand.memoDir": {
 					"type": "string",
-					"default": ".memo",
+					"default": "",
 					"markdownDescription": "%vscode-stand.memoDir.description%"
 				},
 				"vscode-stand.workspaceDir": {
