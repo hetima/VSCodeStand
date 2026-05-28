@@ -11,6 +11,7 @@ A multi-function VS Code extension that bundles several useful features.
 Quickly create and open a memo file.
 - Run from the Command Palette or the Explorer context menu
 - Enter a memo name to create a Markdown file and open it in the editor
+- Run from the editor's context menu. If a Markdown header exists in the selection, it will be used as the new file name.
 - If the file already exists, it is opened as-is
 
 The save location is specified by `vscode-stand.memoDir`. It is recommended to decide upfront whether to consolidate memos in one place with an absolute path, or include them in the project with a relative path.

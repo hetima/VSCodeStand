@@ -35,6 +35,10 @@
 			{
 				"command": "extension.convertToWorkspace",
 				"title": "%extension.convertToWorkspace.title%"
+			},
+			{
+				"command": "extension.newMemoFromSelection",
+				"title": "%extension.newMemoFromSelection.title%"
 			}
 		],
 		"menus": {
@@ -42,6 +46,13 @@
 				{
 					"command": "extension.newMemo",
 					"group": "1_workspace@100"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "extension.newMemoFromSelection",
+					"group": "1_workspace@100",
+					"when": "editorHasSelection"
 				}
 			]
 		},

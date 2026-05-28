@@ -21,10 +21,15 @@ export function activate(context: vscode.ExtensionContext) {
 		newMemoCommand
 	);
 
+	const newMemoFromSelectionCmd = vscode.commands.registerCommand(
+		'extension.newMemoFromSelection',
+		newMemoCommand
+	);
+
 	const convertToWorkspaceCmd = vscode.commands.registerCommand(
 		'extension.convertToWorkspace',
 		convertToWorkspaceCommand
 	);
 
-	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, convertToWorkspaceCmd);
+	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, newMemoFromSelectionCmd, convertToWorkspaceCmd);
 }

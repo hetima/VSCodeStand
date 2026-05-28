@@ -14,8 +14,8 @@ export async function newMemoCommand() {
 		? editor.document.getText(editor.selection)
 		: '';
 
-	// 先頭の空白・改行をスキップして "# タイトル" を探す
-	const headingMatch = selectedText.match(/^[\s\n]*#\s+(.+)/);
+	// 先頭の空白・改行をスキップして markdown ヘッダを探す
+	const headingMatch = selectedText.match(/^[\s\n]*#+\s+(.+)/);
 	let memoName: string;
 	if (headingMatch) {
 		memoName = headingMatch[1].trim();

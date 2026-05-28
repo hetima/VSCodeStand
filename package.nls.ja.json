@@ -1,5 +1,6 @@
 {
 	"extension.newMemo.title": "stand: 新規メモ",
+	"extension.newMemoFromSelection.title": "stand: 選択範囲から新規メモ",
 	"extension.convertToWorkspace.title": "stand: ワークスペースに変換",
 	"extension.selectMemoDir.title": "stand: メモフォルダを選択",
 	"vscode-stand.memoDir.description": "メモを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
