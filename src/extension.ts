@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { closeAllExceptMdCommand } from './command/closeAllExceptMd';
 import { convertToWorkspaceCommand } from './command/convertToWorkspace';
 import { newMemoCommand } from './command/newMemo';
 import { selectMemoDirCommand } from './command/selectMemoDir';
@@ -31,5 +32,10 @@ export function activate(context: vscode.ExtensionContext) {
 		convertToWorkspaceCommand
 	);
 
-	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, newMemoFromSelectionCmd, convertToWorkspaceCmd);
+	const closeAllExceptMdCmd = vscode.commands.registerCommand(
+		'extension.closeAllExceptMd',
+		closeAllExceptMdCommand
+	);
+
+	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, newMemoFromSelectionCmd, convertToWorkspaceCmd, closeAllExceptMdCmd);
 }

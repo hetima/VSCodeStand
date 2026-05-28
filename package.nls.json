@@ -7,5 +7,6 @@
 	"vscode-stand.memoEol.description": "Line ending for new memo files (LF or CRLF). Selected text is also converted to this setting.",
 	"extension.selectWorkspaceDir.title": "stand: Select Workspace Folder",
 	"vscode-stand.workspaceDir.description": "a folder to save workspace. Full path is the common root path, relative path is the individual path.",
-	"vscode-stand.workspaceMainFolder.description": "Main folder name for multi-root workspaces. (DO NOT edit in user scope)"
+	"vscode-stand.workspaceMainFolder.description": "Main folder name for multi-root workspaces. (DO NOT edit in user scope)",
+	"extension.closeAllExceptMd.title": "stand: Close All Except Markdown"
 }

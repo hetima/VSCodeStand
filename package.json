@@ -39,6 +39,10 @@
 			{
 				"command": "extension.newMemoFromSelection",
 				"title": "%extension.newMemoFromSelection.title%"
+			},
+			{
+				"command": "extension.closeAllExceptMd",
+				"title": "%extension.closeAllExceptMd.title%"
 			}
 		],
 		"menus": {

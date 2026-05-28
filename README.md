@@ -41,6 +41,7 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 | `stand: Convert to Workspace` | Create a `.code-workspace` file from the current folder |
 | `stand: Select Memo Folder` | Select a memo folder and save it to global settings |
 | `stand: Select Workspace Folder` | Select a workspace folder and save it to global settings |
+| `stand: Close All Except Markdown` | Close all tab ecept markdown, pinned and unsaved |
 
 ## Settings
 

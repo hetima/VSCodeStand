@@ -4,6 +4,9 @@ All notable changes to the "VSCodeStand" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [Unreleased]
+- Add `stand: Close All Except Markdown` command
+
 ## [0.1.1] - 2026-05-28
 
 - `stand: New Memo`: Added the ability to create a new note from the selected text (uses the Markdown header as the filename if available)

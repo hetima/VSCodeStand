@@ -39,6 +39,7 @@
 | `stand: Convert to Workspace` | 現在のフォルダから `.code-workspace` ファイルを作成 |
 | `stand: Select Memo Folder` | メモフォルダを選択してグローバル設定に保存 |
 | `stand: Select Workspace Folder` | ワークスペースフォルダを選択してグローバル設定に保存 |
+| `stand: Close All Except Markdown` | Markdown、ピン留めされたタブ、未保存のタブを除くすべてのタブを閉じる |
 
 ## 設定
 
