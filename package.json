@@ -2,7 +2,7 @@
 	"name": "vscode-stand",
 	"displayName": "VSCodeStand",
 	"description": "multi function extension",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"publisher": "hetima",
 	"license": "MIT",
 	"repository": {
