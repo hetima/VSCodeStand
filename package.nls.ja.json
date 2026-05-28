@@ -8,5 +8,6 @@
 	"extension.selectWorkspaceDir.title": "stand: ワークスペースフォルダを選択",
 	"vscode-stand.workspaceDir.description": "ワークスペースを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。",
 	"vscode-stand.workspaceMainFolder.description": "マルチルートワークスペース時のメインフォルダ名。(ワークスペースごとに自動設定されます。ユーザースコープでは設定しないでください！)",
-	"extension.closeAllExceptMd.title": "stand: .md以外のタブを閉じる"
+	"extension.closeAllExceptMd.title": "stand: .md以外のタブを閉じる",
+	"vscode-stand.fluentIconPreview.description": ".csおよび.xamlファイルで Fluent Icon Preview を有効にします。&#xAAAA; \\uAAAA \\xAAAA 形式のグリフを表示します。"
 }

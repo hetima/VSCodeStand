@@ -28,6 +28,11 @@
 上記メモファイルの保存場所を決定する `vscode-stand.workspaceMainFolder` と、ターミナルの初期カレントディレクトリを固定する `terminal.integrated.cwd` が最初から記入されています。
 
 
+### その他の機能
+
+- Markdown、ピン留めされたタブ、未保存のタブを除くすべてのタブを閉じるコマンド
+- .csおよび.xamlファイルで Fluent Icon コードポイントのグリフをプレビュー
+
 ![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
 
 
@@ -47,6 +52,7 @@
 |---|---|---|
 | `vscode-stand.memoDir` | （空） | メモを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。 |
 | `vscode-stand.workspaceDir` | （空） | ワークスペースを保存するフォルダ。フルパスは共通ルートパス、相対パスで個別のパス。 |
+| `vscode-stand.fluentIconPreview` | false | .csおよび.xamlファイルで Fluent Icon コードポイントのグリフをプレビューします |
 
 **`memoDir` と `workspaceDir` の保存先のルール:**
 

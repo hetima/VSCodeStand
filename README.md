@@ -29,6 +29,10 @@ Creates a `.code-workspace` file from the currently open folder.
 
 The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (used to resolve the memo save location) and `terminal.integrated.cwd` (to pin the terminal's initial working directory).
 
+### Other Features
+
+- Command that close all tab ecept markdown, pinned and unsaved
+- Preview Fluent Icon glyphs in .cs and .xaml files
 
 ![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
 
@@ -49,6 +53,7 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 |---|---|---|
 | `vscode-stand.memoDir` | (empty) | Folder to save memos. An absolute path provides a common root; a relative path provides an individual path. |
 | `vscode-stand.workspaceDir` | *(empty)* | Folder to save workspaces. An absolute path provides a common root; a relative path provides an individual path. |
+| `vscode-stand.fluentIconPreview` | false | Preview Fluent Icon glyphs in .cs and .xaml files. |
 
 **Save location rules for `memoDir` and `workspaceDir`:**
 

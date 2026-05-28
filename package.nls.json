@@ -8,5 +8,6 @@
 	"extension.selectWorkspaceDir.title": "stand: Select Workspace Folder",
 	"vscode-stand.workspaceDir.description": "a folder to save workspace. Full path is the common root path, relative path is the individual path.",
 	"vscode-stand.workspaceMainFolder.description": "Main folder name for multi-root workspaces. (DO NOT edit in user scope)",
-	"extension.closeAllExceptMd.title": "stand: Close All Except Markdown"
+	"extension.closeAllExceptMd.title": "stand: Close All Except Markdown",
+	"vscode-stand.fluentIconPreview.description": "Enable Fluent Icon Preview for .cs and .xaml files. Displays glyphs for &#xAAAA; ,\\uAAAA and \\xAAAA patterns."
 }

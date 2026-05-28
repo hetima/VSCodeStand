@@ -15,7 +15,11 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [],
+	"activationEvents": [
+		"onLanguage:csharp",
+		"onLanguage:xml",
+		"onLanguage:xaml"
+	],
 	"main": "./out/extension.js",
 	"l10n": "./l10n",
 	"contributes": {
@@ -83,6 +87,11 @@
 					"type": "string",
 					"default": "",
 					"markdownDescription": "%vscode-stand.workspaceDir.description%"
+				},
+				"vscode-stand.fluentIconPreview": {
+					"type": "boolean",
+					"default": false,
+					"description": "%vscode-stand.fluentIconPreview.description%"
 				}
 			}
 		}
