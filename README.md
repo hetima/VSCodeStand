@@ -46,7 +46,7 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 
 | Setting | Default | Description |
 |---|---|---|
-| `vscode-stand.memoDir` | `.memo` | Folder to save memos. An absolute path provides a common root; a relative path provides an individual path. |
+| `vscode-stand.memoDir` | (empty) | Folder to save memos. An absolute path provides a common root; a relative path provides an individual path. |
 | `vscode-stand.workspaceDir` | *(empty)* | Folder to save workspaces. An absolute path provides a common root; a relative path provides an individual path. |
 
 **Save location rules for `memoDir` and `workspaceDir`:**
