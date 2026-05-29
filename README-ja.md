@@ -12,15 +12,16 @@
 - エディタの選択範囲のコンテクストメニューから実行。markdown形式のヘッダ要素が存在したらそれをファイル名にして新規作成
 - ファイルが既に存在する場合はそのまま開く
 
-保存場所は `vscode-stand.memoDir` で指定します。絶対パスで一箇所に集約するか、相対パスでプロジェクトに含めるか、最初にどちらか決めておくことを推奨します。
+保存場所は設定で指定します。絶対パスで一箇所に集約するか、相対パスでプロジェクトに含めるか、最初にどちらか決めておくことを推奨します。
 
 マルチルートワークスペースの場合、初回実行時にメインフォルダを選択します。選択結果はワークスペース設定に保存されます。
 
+
 ### ワークスペースに変換 (`stand: Convert to Workspace`)
 
-現在開いているフォルダから `.code-workspace` ファイルを作成します。
+現在開いているフォルダから `.code-workspace` ファイルを作成します。保存場所は設定で指定します。
 
-- `vscode-stand.memoDir` が絶対パスの場合、以下の選択肢を表示:
+- メモフォルダの設定 `vscode-stand.memoDir` が絶対パスの場合、以下の選択肢を表示:
   - **Just Convert** — 現在のフォルダのみ追加
   - **Add Memo Folder** — 現在のフォルダとメモフォルダを追加（メモフォルダは `"name": "Memo"` として追加）
 - 作成後はエディタで `.code-workspace` ファイルを開きます。ファイル内の「ワークスペースを開く」ボタンを押すと実際にワークスペースを開きます。
@@ -28,11 +29,17 @@
 上記メモファイルの保存場所を決定する `vscode-stand.workspaceMainFolder` と、ターミナルの初期カレントディレクトリを固定する `terminal.integrated.cwd` が最初から記入されています。
 
 
+### ファイルピッカー サイドバー
+
+ワークスペース内のファイルを名前で探して一覧表示します。ヒットした項目だけを表示するので純正エクスプローラーの検索よりも役に立ちます。
+
+
 ### その他の機能
 
 - Markdown、ピン留めされたタブ、未保存のタブを除くすべてのタブを閉じるコマンド
 - .csおよび.xamlファイルで Fluent Icon コードポイントのグリフをプレビュー
 - Fluent Icons を表示・検索するビューア
+- メモ一覧サイドバー
 
 ![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
 
@@ -65,6 +72,20 @@
 | 空白または `.` | ワークスペースルート / ファイル名 |
 | 相対パス（例: `.memo`） | ワークスペースルート / 設定値 / ファイル名 |
 | 絶対パス（例: `/Users/foo/memos`） | 設定値 / ワークスペース名 / ファイル名 |
+
+## スクリーンショット
+
+File Picker
+
+![filepicker](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/filepicker.jpg)
+
+Fluent Icons Viewer
+
+![fluenticonviewer](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/fluenticonviewer.jpg)
+
+Fluent Icons Preview
+
+![fluenticonpreview](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/fluenticonpreview.jpg)
 
 ## ライセンス
 

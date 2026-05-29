@@ -5,9 +5,12 @@ All notable changes to the "VSCodeStand" extension will be documented in this fi
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [Unreleased]
+- Add `Stand File Picker` sidebar view
+- Add `Stand Memo Explorer` sidebar view
 - Add `stand: Close All Except Markdown` command
 - Add `fluent Icon Preview` setting for .cs and .xaml files
 - Add `stand: Fluent Icon Viewer` command
+- Command IDs have changed. Keyboard shortcuts must be reconfigured.
 
 ## [0.1.1] - 2026-05-28
 

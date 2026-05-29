@@ -18,6 +18,7 @@ The save location is specified by `vscode-stand.memoDir`. It is recommended to d
 
 For multi-root workspaces, you will be prompted to select a main folder on first use. The selection is saved to workspace settings.
 
+
 ### Convert to Workspace (`stand: Convert to Workspace`)
 
 Creates a `.code-workspace` file from the currently open folder.
@@ -28,6 +29,12 @@ Creates a `.code-workspace` file from the currently open folder.
 - After creation, the `.code-workspace` file is opened in the editor. Press the "Open Workspace" button in the file to open it as a workspace.
 
 The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (used to resolve the memo save location) and `terminal.integrated.cwd` (to pin the terminal's initial working directory).
+
+
+### File Picker Sidebar
+
+Find and list workspace files by name. It only shows matches, making it more useful than the default Explorer search.
+
 
 ### Other Features
 
@@ -66,6 +73,20 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 | Empty or `.` | Workspace root / filename |
 | Relative path (e.g. `.memo`) | Workspace root / setting value / filename |
 | Absolute path (e.g. `/Users/foo/memos`) | Setting value / workspace name / filename |
+
+## Screenshots
+
+File Picker
+
+![filepicker](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/filepicker.jpg)
+
+Fluent Icons Viewer
+
+![fluenticonviewer](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/fluenticonviewer.jpg)
+
+Fluent Icons Preview
+
+![fluenticonpreview](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/fluenticonpreview.jpg)
 
 ## License
 
