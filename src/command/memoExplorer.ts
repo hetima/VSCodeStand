@@ -538,87 +538,113 @@ body[data-navigating] #search:focus {
 const OPEN_STATE_KEY = 'memoExplorer.openState';
 
 export class MemoExplorerProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'memoExplorer.view';
+  public static readonly viewType = "vscode-stand.memoExplorer.view";
 
-    private _view?: vscode.WebviewView;
-    private _memoDir: string = '';
-    private _currentOpenState: Record<string, boolean> = {};
+  private _view?: vscode.WebviewView;
+  private _memoDir: string = "";
+  private _currentOpenState: Record<string, boolean> = {};
 
-    constructor(private readonly _context: vscode.ExtensionContext) {}
+  constructor(private readonly _context: vscode.ExtensionContext) {}
 
-    public resolveWebviewView(
-        webviewView: vscode.WebviewView,
-        _context: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken,
-    ): void {
-        this._view = webviewView;
+  public resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    _context: vscode.WebviewViewResolveContext,
+    _token: vscode.CancellationToken,
+  ): void {
+    this._view = webviewView;
 
-        webviewView.webview.options = {
-            enableScripts: true,
-            localResourceRoots: [],
-        };
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [],
+    };
 
-        webviewView.webview.onDidReceiveMessage(
-            (message: { command: string; path: string; openState?: Record<string, boolean> }) => {
-                if (message.command === 'open') {
-                    const uri = vscode.Uri.file(message.path);
-                    vscode.window.showTextDocument(uri, { preserveFocus: true });
-                } else if (message.command === 'openStateChanged' && message.openState) {
-                    this._currentOpenState = message.openState;
-                }
-            },
-            undefined,
-            this._context.subscriptions,
+    webviewView.webview.onDidReceiveMessage(
+      (message: {
+        command: string;
+        path: string;
+        openState?: Record<string, boolean>;
+      }) => {
+        if (message.command === "open") {
+          const uri = vscode.Uri.file(message.path);
+          vscode.window.showTextDocument(uri, { preserveFocus: true });
+        } else if (
+          message.command === "openStateChanged" &&
+          message.openState
+        ) {
+          this._currentOpenState = message.openState;
+        }
+      },
+      undefined,
+      this._context.subscriptions,
+    );
+
+    webviewView.onDidDispose(
+      () => {
+        this._context.globalState.update(
+          OPEN_STATE_KEY,
+          this._currentOpenState,
         );
+      },
+      undefined,
+      this._context.subscriptions,
+    );
 
-        webviewView.onDidDispose(() => {
-            this._context.globalState.update(OPEN_STATE_KEY, this._currentOpenState);
-        }, undefined, this._context.subscriptions);
+    this._refresh();
 
-        this._refresh();
+    // 設定変更を監視
+    vscode.workspace.onDidChangeConfiguration(
+      (e) => {
+        if (e.affectsConfiguration("vscode-stand.memoDir")) {
+          this._refresh();
+        }
+      },
+      undefined,
+      this._context.subscriptions,
+    );
+  }
 
-        // 設定変更を監視
-        vscode.workspace.onDidChangeConfiguration((e) => {
-            if (e.affectsConfiguration('vscode-stand.memoDir')) {
-                this._refresh();
-            }
-        }, undefined, this._context.subscriptions);
+  /** ビューを再読み込みする（外部から呼び出し可能） */
+  public refresh(): void {
+    this._refresh();
+  }
+
+  private _refresh(): void {
+    if (!this._view) return;
+
+    const config = vscode.workspace.getConfiguration("vscode-stand");
+    this._memoDir = config.get<string>("memoDir", "");
+
+    if (!this._memoDir) {
+      this._view.webview.html =
+        this._buildEmptyHtml("memoDir が設定されていません");
+      return;
     }
 
-    /** ビューを再読み込みする（外部から呼び出し可能） */
-    public refresh(): void {
-        this._refresh();
+    if (!path.isAbsolute(this._memoDir)) {
+      this._view.webview.html = this._buildEmptyHtml(
+        `memoDir にはフルパスを指定してください:\n${this._memoDir}`,
+      );
+      return;
     }
 
-    private _refresh(): void {
-        if (!this._view) return;
-
-        const config = vscode.workspace.getConfiguration('vscode-stand');
-        this._memoDir = config.get<string>('memoDir', '');
-
-        if (!this._memoDir) {
-            this._view.webview.html = this._buildEmptyHtml('memoDir が設定されていません');
-            return;
-        }
-
-        if (!path.isAbsolute(this._memoDir)) {
-            this._view.webview.html = this._buildEmptyHtml(`memoDir にはフルパスを指定してください:\n${this._memoDir}`);
-            return;
-        }
-
-        if (!fs.existsSync(this._memoDir)) {
-            this._view.webview.html = this._buildEmptyHtml(`フォルダが存在しません:\n${this._memoDir}`);
-            return;
-        }
-
-        const tree = buildTree(this._memoDir);
-        const saved = this._context.globalState.get<Record<string, boolean>>(OPEN_STATE_KEY, {});
-        this._view.webview.html = buildHtml(this._view.webview, tree, saved);
+    if (!fs.existsSync(this._memoDir)) {
+      this._view.webview.html = this._buildEmptyHtml(
+        `フォルダが存在しません:\n${this._memoDir}`,
+      );
+      return;
     }
 
-    private _buildEmptyHtml(message: string): string {
-        const nonce = getNonce();
-        return /* html */`<!DOCTYPE html>
+    const tree = buildTree(this._memoDir);
+    const saved = this._context.globalState.get<Record<string, boolean>>(
+      OPEN_STATE_KEY,
+      {},
+    );
+    this._view.webview.html = buildHtml(this._view.webview, tree, saved);
+  }
+
+  private _buildEmptyHtml(message: string): string {
+    const nonce = getNonce();
+    return /* html */ `<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -628,7 +654,7 @@ body { font-family: var(--vscode-font-family); font-size: var(--vscode-font-size
     color: var(--vscode-descriptionForeground); padding: 12px; }
 </style>
 </head>
-<body>${message.replace(/\n/g, '<br>')}</body>
+<body>${message.replace(/\n/g, "<br>")}</body>
 </html>`;
-    }
+  }
 }

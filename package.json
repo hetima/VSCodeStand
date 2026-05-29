@@ -27,12 +27,12 @@
 			"activitybar": [
 				{
 					"id": "standMemoExplorer",
-					"title": "%memoExplorer.container.title%",
+					"title": "%vscode-stand.memoExplorer.container.title%",
 					"icon": "resources/memo-explorer.svg"
 				},
 				{
 					"id": "standFilePicker",
-					"title": "%filePicker.container.title%",
+					"title": "%vscode-stand.filePicker.container.title%",
 					"icon": "resources/file-picker.svg"
 				}
 			]
@@ -41,66 +41,66 @@
 			"standMemoExplorer": [
 				{
 					"type": "webview",
-					"id": "memoExplorer.view",
-					"name": "%memoExplorer.view.name%"
+					"id": "vscode-stand.memoExplorer.view",
+					"name": "%vscode-stand.memoExplorer.view.name%"
 				}
 			],
 			"standFilePicker": [
 				{
 					"type": "webview",
-					"id": "standFilePicker.view",
-					"name": "%filePicker.view.name%"
+					"id": "vscode-stand.filePicker.view",
+					"name": "%vscode-stand.filePicker.view.name%"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "extension.selectMemoDir",
-				"title": "%extension.selectMemoDir.title%"
+				"command": "vscode-stand.selectMemoDir",
+				"title": "%vscode-stand.selectMemoDir.title%"
 			},
 			{
-				"command": "extension.selectWorkspaceDir",
-				"title": "%extension.selectWorkspaceDir.title%"
+				"command": "vscode-stand.selectWorkspaceDir",
+				"title": "%vscode-stand.selectWorkspaceDir.title%"
 			},
 			{
-				"command": "extension.newMemo",
-				"title": "%extension.newMemo.title%"
+				"command": "vscode-stand.newMemo",
+				"title": "%vscode-stand.newMemo.title%"
 			},
 			{
-				"command": "extension.convertToWorkspace",
-				"title": "%extension.convertToWorkspace.title%"
+				"command": "vscode-stand.convertToWorkspace",
+				"title": "%vscode-stand.convertToWorkspace.title%"
 			},
 			{
-				"command": "extension.newMemoFromSelection",
-				"title": "%extension.newMemoFromSelection.title%"
+				"command": "vscode-stand.newMemoFromSelection",
+				"title": "%vscode-stand.newMemoFromSelection.title%"
 			},
 			{
-				"command": "extension.closeAllExceptMd",
-				"title": "%extension.closeAllExceptMd.title%"
+				"command": "vscode-stand.closeAllExceptMd",
+				"title": "%vscode-stand.closeAllExceptMd.title%"
 			},
 			{
-				"command": "extension.fluentIconViewer",
-				"title": "%extension.fluentIconViewer.title%"
+				"command": "vscode-stand.fluentIconViewer",
+				"title": "%vscode-stand.fluentIconViewer.title%"
 			},
 			{
-				"command": "extension.openStandMemoExplorer",
-				"title": "%extension.openStandMemoExplorer.title%"
+				"command": "vscode-stand.openStandMemoExplorer",
+				"title": "%vscode-stand.openStandMemoExplorer.title%"
 			},
 			{
-				"command": "extension.openStandFilePicker",
-				"title": "%extension.openStandFilePicker.title%"
+				"command": "vscode-stand.openStandFilePicker",
+				"title": "%vscode-stand.openStandFilePicker.title%"
 			}
 		],
 		"menus": {
 			"explorer/context": [
 				{
-					"command": "extension.newMemo",
+					"command": "vscode-stand.newMemo",
 					"group": "1_workspace@100"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "extension.newMemoFromSelection",
+					"command": "vscode-stand.newMemoFromSelection",
 					"group": "1_workspace@100",
 					"when": "editorHasSelection"
 				}

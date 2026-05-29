@@ -12,37 +12,37 @@ import { selectWorkspaceDirCommand } from './command/selectWorkspaceDir';
 export function activate(context: vscode.ExtensionContext) {
 
 	const selectMemoDirCmd = vscode.commands.registerCommand(
-		'extension.selectMemoDir',
+		'vscode-stand.selectMemoDir',
 		selectMemoDirCommand
 	);
 
 	const selectWorkspaceDirCmd = vscode.commands.registerCommand(
-		'extension.selectWorkspaceDir',
+		'vscode-stand.selectWorkspaceDir',
 		selectWorkspaceDirCommand
 	);
 
 	const newMemoCmd = vscode.commands.registerCommand(
-		'extension.newMemo',
+		'vscode-stand.newMemo',
 		newMemoCommand
 	);
 
 	const newMemoFromSelectionCmd = vscode.commands.registerCommand(
-		'extension.newMemoFromSelection',
+		'vscode-stand.newMemoFromSelection',
 		newMemoCommand
 	);
 
 	const convertToWorkspaceCmd = vscode.commands.registerCommand(
-		'extension.convertToWorkspace',
+		'vscode-stand.convertToWorkspace',
 		convertToWorkspaceCommand
 	);
 
 	const closeAllExceptMdCmd = vscode.commands.registerCommand(
-		'extension.closeAllExceptMd',
+		'vscode-stand.closeAllExceptMd',
 		closeAllExceptMdCommand
 	);
 
 	const openStandMemoExplorerCmd = vscode.commands.registerCommand(
-    "extension.openStandMemoExplorer",
+    "vscode-stand.openStandMemoExplorer",
     () =>
 		vscode.commands.executeCommand(
 			"workbench.view.extension.standMemoExplorer",
@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	
 	const openStandFilePickerCmd = vscode.commands.registerCommand(
-		"extension.openStandFilePicker",
+		"vscode-stand.openStandFilePicker",
 		() =>
 		vscode.commands.executeCommand(
 			"workbench.view.extension.standFilePicker",

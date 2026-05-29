@@ -518,7 +518,7 @@ body[data-navigating] #search:focus {
 }
 
 export class FilePickerProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'standFilePicker.view';
+    public static readonly viewType = 'vscode-stand.filePicker.view';
 
     private _view?: vscode.WebviewView;
 

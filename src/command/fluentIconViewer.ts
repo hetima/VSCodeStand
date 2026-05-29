@@ -316,7 +316,7 @@ function getNonce(): string {
 
 /** 「stand: Fluent Icon Viewer」コマンドを登録する */
 export function registerFluentIconViewerCommand(context: vscode.ExtensionContext): void {
-    const cmd = vscode.commands.registerCommand('extension.fluentIconViewer', () => {
+    const cmd = vscode.commands.registerCommand('vscode-stand.fluentIconViewer', () => {
         const dataPath = path.join(context.extensionPath, 'resources', 'FluentIconsData.json');
         let icons: IconEntry[];
         try {
