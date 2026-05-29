@@ -181,6 +181,11 @@ body {
     background: var(--vscode-list-hoverBackground);
 }
 
+.tree-item.keyboard-focus {
+    outline: 1px solid var(--vscode-focusBorder);
+    outline-offset: -1px;
+}
+
 .tree-toggle {
     display: inline-flex;
     align-items: center;
@@ -291,6 +296,7 @@ body {
     }
 
     function render() {
+        const focusedPath = treeEl.querySelector('.tree-item.keyboard-focus')?.dataset.path;
         if (!treeData) {
             treeEl.innerHTML = '<div class="empty-msg">検索してファイルを探す</div>';
             return;
@@ -300,27 +306,50 @@ body {
             return;
         }
         treeEl.innerHTML = renderTree(treeData, 0);
+        if (focusedPath) {
+            const el = treeEl.querySelector('.tree-item[data-path="' + CSS.escape(focusedPath) + '"]');
+            if (el) { el.classList.add('keyboard-focus'); el.scrollIntoView({ block: 'nearest' }); }
+        }
     }
 
     // -------------------------------------------------------
     // イベント
     // -------------------------------------------------------
 
-    treeEl.addEventListener('click', (e) => {
-        const item = e.target.closest('.tree-item');
-        if (!item) return;
+    function getVisibleItems() {
+        return Array.from(treeEl.querySelectorAll('.tree-item'));
+    }
 
+    function activateItem(item) {
         const p = item.dataset.path;
         const isDir = !!item.dataset.dir;
-
         if (isDir) {
             openState[p] = !openState[p];
-            render();
         } else {
             selectedPath = p;
             vscode.postMessage({ command: 'open', path: p });
-            render();
         }
+        render();
+    }
+
+    function moveSelection(dir) {
+        const items = getVisibleItems();
+        if (items.length === 0) return;
+        const current = treeEl.querySelector('.tree-item.keyboard-focus');
+        const idx = current ? items.indexOf(current) : -1;
+        const next = items[Math.max(0, Math.min(items.length - 1, idx + dir))];
+        items.forEach(el => el.classList.remove('keyboard-focus'));
+        next.classList.add('keyboard-focus');
+        next.scrollIntoView({ block: 'nearest' });
+    }
+
+    treeEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.tree-item');
+        if (!item) return;
+        getVisibleItems().forEach(el => el.classList.remove('keyboard-focus'));
+        item.classList.add('keyboard-focus');
+        activateItem(item);
+        searchInput.focus();
     });
 
     searchInput.addEventListener('keydown', (e) => {
@@ -328,6 +357,39 @@ body {
             searchInput.value = '';
             treeData = null;
             render();
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            moveSelection(1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            moveSelection(-1);
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            const focused = treeEl.querySelector('.tree-item.keyboard-focus');
+            if (!focused) return;
+            if (focused.dataset.dir) {
+                const p = focused.dataset.path;
+                if (!openState[p]) {
+                    openState[p] = true;
+                    render();
+                } else {
+                    moveSelection(1);
+                }
+            }
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const focused = treeEl.querySelector('.tree-item.keyboard-focus');
+            if (!focused) return;
+            const p = focused.dataset.path;
+            if (focused.dataset.dir && openState[p]) {
+                openState[p] = false;
+                render();
+            } else {
+                moveSelection(-1);
+            }
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            const focused = treeEl.querySelector('.tree-item.keyboard-focus');
+            if (focused) { e.preventDefault(); activateItem(focused); }
         }
     });
 
