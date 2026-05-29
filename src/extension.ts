@@ -41,7 +41,32 @@ export function activate(context: vscode.ExtensionContext) {
 		closeAllExceptMdCommand
 	);
 
-	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, newMemoFromSelectionCmd, convertToWorkspaceCmd, closeAllExceptMdCmd);
+	const openStandMemoExplorerCmd = vscode.commands.registerCommand(
+    "extension.openStandMemoExplorer",
+    () =>
+		vscode.commands.executeCommand(
+			"workbench.view.extension.standMemoExplorer",
+		),
+	);
+	
+	const openStandFilePickerCmd = vscode.commands.registerCommand(
+		"extension.openStandFilePicker",
+		() =>
+		vscode.commands.executeCommand(
+			"workbench.view.extension.standFilePicker",
+		),
+  );
+
+	context.subscriptions.push(
+    selectMemoDirCmd,
+    selectWorkspaceDirCmd,
+    newMemoCmd,
+    newMemoFromSelectionCmd,
+    convertToWorkspaceCmd,
+    closeAllExceptMdCmd,
+    openStandMemoExplorerCmd,
+    openStandFilePickerCmd,
+  );
 
 	activateFluentIconPreview(context);
 	registerFluentIconViewerCommand(context);

@@ -48,6 +48,8 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 | `stand: Select Workspace Folder` | Select a workspace folder and save it to global settings |
 | `stand: Close All Except Markdown` | Close all tab ecept markdown, pinned and unsaved |
 | `stand: Fluent Icon Viewer` | Open a searchable grid viewer for Fluent Icons |
+| `stand: Open Memo Explorer` | Open the Memo Explorer side panel |
+| `stand: Open File Picker` | Open the File Picker side panel |
 
 ## Settings
 

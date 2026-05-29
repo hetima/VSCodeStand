@@ -11,8 +11,10 @@
 	"extension.closeAllExceptMd.title": "stand: Close All Except Markdown",
 	"vscode-stand.fluentIconPreview.description": "Enable Fluent Icon Preview for .cs and .xaml files. Displays glyphs for &#xAAAA; ,\\uAAAA and \\xAAAA patterns.",
 	"extension.fluentIconViewer.title": "stand: Fluent Icon Viewer",
-	"memoExplorer.container.title": "Memo Explorer",
-	"memoExplorer.view.name": "Memo Explorer",
-	"filePicker.container.title": "File Picker",
-	"filePicker.view.name": "File Picker"
+	"extension.openStandMemoExplorer.title": "stand: Open Memo Explorer",
+	"extension.openStandFilePicker.title": "stand: Open File Picker",
+	"memoExplorer.container.title": "Stand Memo Explorer",
+	"memoExplorer.view.name": "Stand Memo Explorer",
+	"filePicker.container.title": "Stand File Picker",
+	"filePicker.view.name": "Stand File Picker"
 }

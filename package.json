@@ -2,7 +2,7 @@
 	"name": "vscode-stand",
 	"displayName": "VSCodeStand",
 	"description": "multi function extension",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"publisher": "hetima",
 	"license": "MIT",
 	"repository": {
@@ -26,29 +26,29 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "memoExplorer",
+					"id": "standMemoExplorer",
 					"title": "%memoExplorer.container.title%",
 					"icon": "resources/memo-explorer.svg"
 				},
 				{
-					"id": "filePicker",
+					"id": "standFilePicker",
 					"title": "%filePicker.container.title%",
 					"icon": "resources/file-picker.svg"
 				}
 			]
 		},
 		"views": {
-			"memoExplorer": [
+			"standMemoExplorer": [
 				{
 					"type": "webview",
 					"id": "memoExplorer.view",
 					"name": "%memoExplorer.view.name%"
 				}
 			],
-			"filePicker": [
+			"standFilePicker": [
 				{
 					"type": "webview",
-					"id": "filePicker.view",
+					"id": "standFilePicker.view",
 					"name": "%filePicker.view.name%"
 				}
 			]
@@ -81,6 +81,14 @@
 			{
 				"command": "extension.fluentIconViewer",
 				"title": "%extension.fluentIconViewer.title%"
+			},
+			{
+				"command": "extension.openStandMemoExplorer",
+				"title": "%extension.openStandMemoExplorer.title%"
+			},
+			{
+				"command": "extension.openStandFilePicker",
+				"title": "%extension.openStandFilePicker.title%"
 			}
 		],
 		"menus": {

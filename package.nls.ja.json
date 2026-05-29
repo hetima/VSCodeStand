@@ -11,8 +11,10 @@
 	"extension.closeAllExceptMd.title": "stand: .md以外のタブを閉じる",
 	"vscode-stand.fluentIconPreview.description": ".csおよび.xamlファイルで Fluent Icon Preview を有効にします。&#xAAAA; \\uAAAA \\xAAAA 形式のグリフを表示します。",
 	"extension.fluentIconViewer.title": "stand: Fluent Icon Viewer",
-	"memoExplorer.container.title": "メモ一覧",
-	"memoExplorer.view.name": "メモ一覧",
-	"filePicker.container.title": "ファイルピッカー",
-	"filePicker.view.name": "ファイルピッカー"
+	"extension.openStandMemoExplorer.title": "stand: メモ一覧を開く",
+	"extension.openStandFilePicker.title": "stand: ファイルピッカーを開く",
+	"memoExplorer.container.title": "Stand メモ一覧",
+	"memoExplorer.view.name": "Stand メモ一覧",
+	"filePicker.container.title": "Stand ファイルピッカー",
+	"filePicker.view.name": "Stand ファイルピッカー"
 }
