@@ -1,10 +1,7 @@
 # Change Log
 
-All notable changes to the "VSCodeStand" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+## [0.2.0] - 2026-05-29
 - Add `Stand File Picker` sidebar view
 - Add `Stand Memo Explorer` sidebar view
 - Add `stand: Close All Except Markdown` command
