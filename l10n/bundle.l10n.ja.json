@@ -11,5 +11,8 @@
     ".code-workspace file already exists": ".code-workspace ファイルが既に存在します",
     "Select main folder for this workspace": "このワークスペースのメインフォルダを選択",
     "New Memo": "新規メモ",
-    "Enter memo name": "メモ名を入力"
+    "Enter memo name": "メモ名を入力",
+    "Search to find files": "検索してファイルを探します",
+    "No files found": "見つかりませんでした",
+    "Search files...": "ファイルを検索..."
 }

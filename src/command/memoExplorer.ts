@@ -55,6 +55,8 @@ function getNonce(): string {
 function buildHtml(_webview: vscode.Webview, tree: FileNode[], savedOpenState: Record<string, boolean>): string {
     const treeJson = JSON.stringify(tree).replace(/</g, '\\u003c');
     const savedJson = JSON.stringify(savedOpenState).replace(/</g, '\\u003c');
+    const msgNotFound = vscode.l10n.t('No files found');
+    const msgPlaceholder = vscode.l10n.t('Search files...');
     const nonce = getNonce();
 
     return /* html */`<!DOCTYPE html>
@@ -101,6 +103,11 @@ body {
     border-color: var(--vscode-focusBorder);
 }
 
+body[data-navigating] #search:focus {
+    border-color: var(--vscode-input-border, transparent);
+    caret-color: transparent;
+}
+
 #tree-container {
     flex: 1;
     overflow-y: auto;
@@ -120,6 +127,12 @@ body {
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.tree-indent {
+    display: inline-block;
+    width: 6px;
+    flex-shrink: 0;
 }
 
 .tree-item:hover {
@@ -150,7 +163,7 @@ body {
 
 .tree-indent {
     display: inline-block;
-    width: 16px;
+    width: 4px;
     flex-shrink: 0;
 }
 
@@ -162,7 +175,7 @@ body {
     height: 16px;
     flex-shrink: 0;
     color: var(--vscode-foreground);
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .tree-icon {
@@ -191,7 +204,7 @@ body {
 </head>
 <body>
 <div id="search-bar">
-    <input id="search" type="text" placeholder="ファイル名を検索..." autocomplete="off" spellcheck="false">
+    <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
 </div>
 <div id="tree-container">
     <div id="tree"></div>
@@ -201,6 +214,7 @@ body {
 (function() {
     const vscode = acquireVsCodeApi();
     const treeData = ${treeJson};
+    const MSG_NOT_FOUND = ${JSON.stringify(msgNotFound)};
     const treeEl = document.getElementById('tree');
     const searchInput = document.getElementById('search');
 
@@ -276,7 +290,7 @@ body {
     function renderTree(nodes, depth, query, ancestorPaths) {
         let html = '';
         for (const node of nodes) {
-            const indent = depth * 16;
+            const indentHtml = '<span class="tree-indent"></span>'.repeat(depth);
             const isOpen = !!openState[nodeKey(node)];
             const isSelected = node.fullPath === selectedPath;
 
@@ -285,8 +299,8 @@ body {
                 // 検索中: マッチ子孫がいないフォルダは薄くする
                 const dimmed = query && !ancestorPaths.has(node.fullPath) ? ' dimmed' : '';
                 html += '<div class="tree-item' + dimmed + (isSelected ? ' selected' : '') + '"'
-                    + ' data-path="' + escHtml(node.fullPath) + '" data-dir="1"'
-                    + ' style="padding-left:' + indent + 'px">'
+                    + ' data-path="' + escHtml(node.fullPath) + '" data-dir="1">'
+                    + indentHtml
                     + '<span class="tree-toggle">' + toggle + '</span>'
                     + '<span class="tree-label">' + escHtml(node.name) + '</span>'
                     + '</div>';
@@ -299,8 +313,8 @@ body {
                 if (query && !matches) continue;
                 const dimCls = isSelected ? ' selected' : '';
                 html += '<div class="tree-item' + dimCls + '"'
-                    + ' data-path="' + escHtml(node.fullPath) + '"'
-                    + ' style="padding-left:' + indent + 'px">'
+                    + ' data-path="' + escHtml(node.fullPath) + '">'
+                    + indentHtml
                     + '<span class="tree-toggle"></span>'
                     + '<span class="tree-label">' + highlightMatch(node.name, query) + '</span>'
                     + '</div>';
@@ -317,7 +331,7 @@ body {
             findMatchingAncestors(treeData, query, ancestorPaths);
         }
         const html = renderTree(treeData, 0, query, ancestorPaths);
-        treeEl.innerHTML = html || '<div class="empty-msg">ファイルが見つかりません</div>';
+        treeEl.innerHTML = html || '<div class="empty-msg">' + MSG_NOT_FOUND + '</div>';
         if (focusedPath) {
             const el = treeEl.querySelector('.tree-item[data-path="' + CSS.escape(focusedPath) + '"]');
             if (el) { el.classList.add('keyboard-focus'); el.scrollIntoView({ block: 'nearest' }); }
@@ -357,6 +371,7 @@ body {
         items.forEach(el => el.classList.remove('keyboard-focus'));
         next.classList.add('keyboard-focus');
         next.scrollIntoView({ block: 'nearest' });
+        document.body.setAttribute('data-navigating', '1');
     }
 
     treeEl.addEventListener('click', (e) => {
@@ -372,6 +387,9 @@ body {
         if (e.key === 'Escape') {
             searchInput.value = '';
             searchInput.dispatchEvent(new Event('input'));
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            moveSelection(e.shiftKey ? -1 : 1);
         } else if (e.key === 'ArrowDown') {
             e.preventDefault();
             moveSelection(1);
@@ -412,7 +430,12 @@ body {
         }
     });
 
+    searchInput.addEventListener('click', () => {
+        document.body.removeAttribute('data-navigating');
+    });
+
     searchInput.addEventListener('input', () => {
+        document.body.removeAttribute('data-navigating');
         const q = searchInput.value.trim().toLowerCase();
         if (!currentQuery && q) {
             // 検索開始: 現在の開閉状態を保存

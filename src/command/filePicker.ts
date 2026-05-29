@@ -97,6 +97,9 @@ function getNonce(): string {
 
 function buildHtml(_webview: vscode.Webview, tree: FileNode[] | null): string {
     const treeJson = tree ? JSON.stringify(tree).replace(/</g, '\\u003c') : 'null';
+    const msgSearch = vscode.l10n.t('Search to find files');
+    const msgNotFound = vscode.l10n.t('No files found');
+    const msgPlaceholder = vscode.l10n.t('Search files...');
     const nonce = getNonce();
 
     return /* html */`<!DOCTYPE html>
@@ -143,6 +146,11 @@ body {
     border-color: var(--vscode-focusBorder);
 }
 
+body[data-navigating] #search:focus {
+    border-color: var(--vscode-input-border, transparent);
+    caret-color: transparent;
+}
+
 #tree-container {
     flex: 1;
     overflow-y: auto;
@@ -162,6 +170,12 @@ body {
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.tree-indent {
+    display: inline-block;
+    width: 4px;
+    flex-shrink: 0;
 }
 
 .tree-item:hover {
@@ -193,7 +207,7 @@ body {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .tree-label {
@@ -212,7 +226,7 @@ body {
 </head>
 <body>
 <div id="search-bar">
-    <input id="search" type="text" placeholder="ファイルを検索..." autocomplete="off" spellcheck="false">
+    <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
 </div>
 <div id="tree-container">
     <div id="tree"></div>
@@ -224,6 +238,8 @@ body {
     const treeEl = document.getElementById('tree');
     const searchInput = document.getElementById('search');
 
+    const MSG_SEARCH = ${JSON.stringify(msgSearch)};
+    const MSG_NOT_FOUND = ${JSON.stringify(msgNotFound)};
     let treeData = ${treeJson};
     let openState = {};
     let selectedPath = null;
@@ -268,15 +284,15 @@ body {
     function renderTree(nodes, depth) {
         let html = '';
         for (const node of nodes) {
-            const indent = depth * 16;
+            const indentHtml = '<span class="tree-indent"></span>'.repeat(depth);
             const isOpen = !!openState[node.fullPath];
             const isSelected = node.fullPath === selectedPath;
 
             if (node.isDir) {
                 const toggle = isOpen ? '-' : '+';
                 html += '<div class="tree-item' + (isSelected ? ' selected' : '') + '"'
-                    + ' data-path="' + escHtml(node.fullPath) + '" data-dir="1"'
-                    + ' style="padding-left:' + indent + 'px">'
+                    + ' data-path="' + escHtml(node.fullPath) + '" data-dir="1">'
+                    + indentHtml
                     + '<span class="tree-toggle">' + toggle + '</span>'
                     + '<span class="tree-label">' + escHtml(node.name) + '</span>'
                     + '</div>';
@@ -285,8 +301,8 @@ body {
                 }
             } else {
                 html += '<div class="tree-item' + (isSelected ? ' selected' : '') + '"'
-                    + ' data-path="' + escHtml(node.fullPath) + '"'
-                    + ' style="padding-left:' + (indent + 16) + 'px">'
+                    + ' data-path="' + escHtml(node.fullPath) + '">'
+                    + indentHtml
                     + '<span class="tree-toggle"></span>'
                     + '<span class="tree-label">' + highlightMatch(node.name, searchInput.value.trim()) + '</span>'
                     + '</div>';
@@ -298,11 +314,11 @@ body {
     function render() {
         const focusedPath = treeEl.querySelector('.tree-item.keyboard-focus')?.dataset.path;
         if (!treeData) {
-            treeEl.innerHTML = '<div class="empty-msg">検索してファイルを探す</div>';
+            treeEl.innerHTML = '<div class="empty-msg">' + MSG_SEARCH + '</div>';
             return;
         }
         if (treeData.length === 0) {
-            treeEl.innerHTML = '<div class="empty-msg">見つかりませんでした</div>';
+            treeEl.innerHTML = '<div class="empty-msg">' + MSG_NOT_FOUND + '</div>';
             return;
         }
         treeEl.innerHTML = renderTree(treeData, 0);
@@ -341,6 +357,7 @@ body {
         items.forEach(el => el.classList.remove('keyboard-focus'));
         next.classList.add('keyboard-focus');
         next.scrollIntoView({ block: 'nearest' });
+        document.body.setAttribute('data-navigating', '1');
     }
 
     treeEl.addEventListener('click', (e) => {
@@ -357,6 +374,9 @@ body {
             searchInput.value = '';
             treeData = null;
             render();
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            moveSelection(e.shiftKey ? -1 : 1);
         } else if (e.key === 'ArrowDown') {
             e.preventDefault();
             moveSelection(1);
@@ -393,8 +413,13 @@ body {
         }
     });
 
+    searchInput.addEventListener('click', () => {
+        document.body.removeAttribute('data-navigating');
+    });
+
     let debounceTimer = null;
     searchInput.addEventListener('input', () => {
+        document.body.removeAttribute('data-navigating');
         const q = searchInput.value.trim();
         if (!q) {
             treeData = null;
