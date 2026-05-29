@@ -3,6 +3,7 @@ import { closeAllExceptMdCommand } from './command/closeAllExceptMd';
 import { convertToWorkspaceCommand } from './command/convertToWorkspace';
 import { activateFluentIconPreview } from './command/fluentIconPreview';
 import { registerFluentIconViewerCommand } from './command/fluentIconViewer';
+import { MemoExplorerProvider } from './command/memoExplorer';
 import { newMemoCommand } from './command/newMemo';
 import { selectMemoDirCommand } from './command/selectMemoDir';
 import { selectWorkspaceDirCommand } from './command/selectWorkspaceDir';
@@ -43,4 +44,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	activateFluentIconPreview(context);
 	registerFluentIconViewerCommand(context);
+
+	const memoExplorerProvider = new MemoExplorerProvider(context);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(MemoExplorerProvider.viewType, memoExplorerProvider)
+	);
 }

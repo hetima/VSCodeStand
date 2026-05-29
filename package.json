@@ -23,6 +23,24 @@
 	"main": "./out/extension.js",
 	"l10n": "./l10n",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "memoExplorer",
+					"title": "%memoExplorer.container.title%",
+					"icon": "resources/memo-explorer.svg"
+				}
+			]
+		},
+		"views": {
+			"memoExplorer": [
+				{
+					"type": "webview",
+					"id": "memoExplorer.view",
+					"name": "%memoExplorer.view.name%"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "extension.selectMemoDir",

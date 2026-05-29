@@ -10,5 +10,7 @@
 	"vscode-stand.workspaceMainFolder.description": "マルチルートワークスペース時のメインフォルダ名。(ワークスペースごとに自動設定されます。ユーザースコープでは設定しないでください！)",
 	"extension.closeAllExceptMd.title": "stand: .md以外のタブを閉じる",
 	"vscode-stand.fluentIconPreview.description": ".csおよび.xamlファイルで Fluent Icon Preview を有効にします。&#xAAAA; \\uAAAA \\xAAAA 形式のグリフを表示します。",
-	"extension.fluentIconViewer.title": "stand: Fluent Icon Viewer"
+	"extension.fluentIconViewer.title": "stand: Fluent Icon Viewer",
+	"memoExplorer.container.title": "stand: メモ一覧",
+	"memoExplorer.view.name": "stand: メモ一覧"
 }
