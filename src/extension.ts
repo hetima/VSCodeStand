@@ -46,13 +46,15 @@ export function activate(context: vscode.ExtensionContext) {
 	activateFluentIconPreview(context);
 	registerFluentIconViewerCommand(context);
 
+	const retainContext = { webviewOptions: { retainContextWhenHidden: true } };
+
 	const memoExplorerProvider = new MemoExplorerProvider(context);
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(MemoExplorerProvider.viewType, memoExplorerProvider)
+		vscode.window.registerWebviewViewProvider(MemoExplorerProvider.viewType, memoExplorerProvider, retainContext)
 	);
 
 	const filePickerProvider = new FilePickerProvider(context);
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(FilePickerProvider.viewType, filePickerProvider)
+		vscode.window.registerWebviewViewProvider(FilePickerProvider.viewType, filePickerProvider, retainContext)
 	);
 }
