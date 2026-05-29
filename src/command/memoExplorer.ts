@@ -57,6 +57,7 @@ function buildHtml(_webview: vscode.Webview, tree: FileNode[], savedOpenState: R
     const savedJson = JSON.stringify(savedOpenState).replace(/</g, '\\u003c');
     const msgNotFound = vscode.l10n.t('No files found');
     const msgPlaceholder = vscode.l10n.t('Search files...');
+    const msgMatchCase = vscode.l10n.t('Match Case');
     const nonce = getNonce();
 
     return /* html */`<!DOCTYPE html>
@@ -88,12 +89,18 @@ body {
     border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, transparent);
 }
 
+#search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 #search {
     width: 100%;
     background: var(--vscode-input-background);
     color: var(--vscode-input-foreground);
     border: 1px solid var(--vscode-input-border, transparent);
-    padding: 3px 6px;
+    padding: 3px 28px 3px 6px;
     outline: none;
     font-size: var(--vscode-font-size);
     font-family: var(--vscode-font-family);
@@ -106,6 +113,28 @@ body {
 body[data-navigating] #search:focus {
     border-color: var(--vscode-input-border, transparent);
     caret-color: transparent;
+}
+
+#btn-case {
+    position: absolute;
+    right: 2px;
+    background: transparent;
+    border: none;
+    color: var(--vscode-input-foreground);
+    cursor: pointer;
+    padding: 0 3px;
+    font-size: 11px;
+    opacity: 0.5;
+    line-height: 1;
+}
+
+#btn-case:hover { opacity: 1; }
+
+#btn-case.active {
+    opacity: 1;
+    color: var(--vscode-inputOption-activeForeground, var(--vscode-focusBorder));
+    background: var(--vscode-inputOption-activeBackground, transparent);
+    outline: 1px solid var(--vscode-inputOption-activeBorder, var(--vscode-focusBorder));
 }
 
 #tree-container {
@@ -204,7 +233,10 @@ body[data-navigating] #search:focus {
 </head>
 <body>
 <div id="search-bar">
-    <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
+    <div id="search-wrap">
+        <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
+        <button id="btn-case" title="${msgMatchCase}">Aa</button>
+    </div>
 </div>
 <div id="tree-container">
     <div id="tree"></div>
@@ -232,6 +264,8 @@ body[data-navigating] #search:focus {
 
     let currentQuery = '';
     let selectedPath = null;
+    let caseSensitive = false;
+    const btnCase = document.getElementById('btn-case');
 
     // -------------------------------------------------------
     // ユーティリティ
@@ -250,6 +284,13 @@ body[data-navigating] #search:focus {
         }
     }
 
+    function matchesQuery(name, query) {
+        if (!query) return true;
+        const haystack = caseSensitive ? name : name.toLowerCase();
+        const needle = caseSensitive ? query : query.toLowerCase();
+        return haystack.includes(needle);
+    }
+
     /** クエリにマッチするmdファイルを持つディレクトリパスのセットを返す */
     function findMatchingAncestors(nodes, query, result) {
         let found = false;
@@ -261,7 +302,7 @@ body[data-navigating] #search:focus {
                     found = true;
                 }
             } else {
-                if (n.name.toLowerCase().includes(query)) {
+                if (matchesQuery(n.name, query)) {
                     found = true;
                 }
             }
@@ -272,7 +313,9 @@ body[data-navigating] #search:focus {
     /** テキストのマッチ部分をハイライト */
     function highlightMatch(text, query) {
         if (!query) return escHtml(text);
-        const idx = text.toLowerCase().indexOf(query);
+        const haystack = caseSensitive ? text : text.toLowerCase();
+        const needle = caseSensitive ? query : query.toLowerCase();
+        const idx = haystack.indexOf(needle);
         if (idx < 0) return escHtml(text);
         return escHtml(text.slice(0, idx))
             + '<mark>' + escHtml(text.slice(idx, idx + query.length)) + '</mark>'
@@ -308,7 +351,7 @@ body[data-navigating] #search:focus {
                     html += renderTree(node.children, depth + 1, query, ancestorPaths);
                 }
             } else {
-                const matches = !query || node.name.toLowerCase().includes(query);
+                const matches = !query || matchesQuery(node.name, query);
                 // 検索中で非マッチのファイルは表示しない
                 if (query && !matches) continue;
                 const dimCls = isSelected ? ' selected' : '';
@@ -396,7 +439,7 @@ body[data-navigating] #search:focus {
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             moveSelection(-1);
-        } else if (e.key === 'ArrowRight') {
+        } else if (e.key === 'ArrowRight' && document.body.hasAttribute('data-navigating')) {
             e.preventDefault();
             const focused = treeEl.querySelector('.tree-item.keyboard-focus');
             if (!focused) return;
@@ -411,7 +454,7 @@ body[data-navigating] #search:focus {
                     moveSelection(1);
                 }
             }
-        } else if (e.key === 'ArrowLeft') {
+        } else if (e.key === 'ArrowLeft' && document.body.hasAttribute('data-navigating')) {
             e.preventDefault();
             const focused = treeEl.querySelector('.tree-item.keyboard-focus');
             if (!focused) return;
@@ -436,7 +479,8 @@ body[data-navigating] #search:focus {
 
     searchInput.addEventListener('input', () => {
         document.body.removeAttribute('data-navigating');
-        const q = searchInput.value.trim().toLowerCase();
+        const raw = searchInput.value.trim();
+        const q = caseSensitive ? raw : raw.toLowerCase();
         if (!currentQuery && q) {
             // 検索開始: 現在の開閉状態を保存
             savedOpenState = Object.assign({}, openState);
@@ -458,6 +502,21 @@ body[data-navigating] #search:focus {
             }
         }
         render();
+    });
+
+    btnCase.addEventListener('click', () => {
+        caseSensitive = !caseSensitive;
+        btnCase.classList.toggle('active', caseSensitive);
+        const raw = searchInput.value.trim();
+        const q = caseSensitive ? raw : raw.toLowerCase();
+        currentQuery = q;
+        if (q) {
+            const ancestors = new Set();
+            findMatchingAncestors(treeData, q, ancestors);
+            for (const p of ancestors) { openState[p] = true; }
+        }
+        render();
+        searchInput.focus();
     });
 
     // 外部からのリフレッシュ要求

@@ -100,6 +100,7 @@ function buildHtml(_webview: vscode.Webview, tree: FileNode[] | null): string {
     const msgSearch = vscode.l10n.t('Search to find files');
     const msgNotFound = vscode.l10n.t('No files found');
     const msgPlaceholder = vscode.l10n.t('Search files...');
+    const msgMatchCase = vscode.l10n.t('Match Case');
     const nonce = getNonce();
 
     return /* html */`<!DOCTYPE html>
@@ -131,12 +132,18 @@ body {
     border-bottom: 1px solid var(--vscode-sideBarSectionHeader-border, transparent);
 }
 
+#search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 #search {
     width: 100%;
     background: var(--vscode-input-background);
     color: var(--vscode-input-foreground);
     border: 1px solid var(--vscode-input-border, transparent);
-    padding: 3px 6px;
+    padding: 3px 28px 3px 6px;
     outline: none;
     font-size: var(--vscode-font-size);
     font-family: var(--vscode-font-family);
@@ -149,6 +156,28 @@ body {
 body[data-navigating] #search:focus {
     border-color: var(--vscode-input-border, transparent);
     caret-color: transparent;
+}
+
+#btn-case {
+    position: absolute;
+    right: 2px;
+    background: transparent;
+    border: none;
+    color: var(--vscode-input-foreground);
+    cursor: pointer;
+    padding: 0 3px;
+    font-size: 11px;
+    opacity: 0.5;
+    line-height: 1;
+}
+
+#btn-case:hover { opacity: 1; }
+
+#btn-case.active {
+    opacity: 1;
+    color: var(--vscode-inputOption-activeForeground, var(--vscode-focusBorder));
+    background: var(--vscode-inputOption-activeBackground, transparent);
+    outline: 1px solid var(--vscode-inputOption-activeBorder, var(--vscode-focusBorder));
 }
 
 #tree-container {
@@ -226,7 +255,10 @@ body[data-navigating] #search:focus {
 </head>
 <body>
 <div id="search-bar">
-    <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
+    <div id="search-wrap">
+        <input id="search" type="text" placeholder="${msgPlaceholder}" autocomplete="off" spellcheck="false">
+        <button id="btn-case" title="${msgMatchCase}">Aa</button>
+    </div>
 </div>
 <div id="tree-container">
     <div id="tree"></div>
@@ -241,8 +273,11 @@ body[data-navigating] #search:focus {
     const MSG_SEARCH = ${JSON.stringify(msgSearch)};
     const MSG_NOT_FOUND = ${JSON.stringify(msgNotFound)};
     let treeData = ${treeJson};
+    let rawTreeData = ${treeJson};
     let openState = {};
     let selectedPath = null;
+    let caseSensitive = false;
+    const btnCase = document.getElementById('btn-case');
 
     // -------------------------------------------------------
     // ユーティリティ
@@ -270,11 +305,28 @@ body[data-navigating] #search:focus {
 
     function highlightMatch(text, query) {
         if (!query) return escHtml(text);
-        const idx = text.toLowerCase().indexOf(query.toLowerCase());
+        const haystack = caseSensitive ? text : text.toLowerCase();
+        const needle = caseSensitive ? query : query.toLowerCase();
+        const idx = haystack.indexOf(needle);
         if (idx < 0) return escHtml(text);
         return escHtml(text.slice(0, idx))
             + '<mark>' + escHtml(text.slice(idx, idx + query.length)) + '</mark>'
             + escHtml(text.slice(idx + query.length));
+    }
+
+    function filterTree(nodes, query) {
+        const result = [];
+        for (const n of nodes) {
+            if (n.isDir) {
+                const children = filterTree(n.children ?? [], query);
+                if (children.length > 0) result.push(Object.assign({}, n, { children }));
+            } else {
+                const name = caseSensitive ? n.name : n.name.toLowerCase();
+                const q = caseSensitive ? query : query.toLowerCase();
+                if (name.includes(q)) result.push(n);
+            }
+        }
+        return result;
     }
 
     // -------------------------------------------------------
@@ -383,7 +435,7 @@ body[data-navigating] #search:focus {
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             moveSelection(-1);
-        } else if (e.key === 'ArrowRight') {
+        } else if (e.key === 'ArrowRight' && document.body.hasAttribute('data-navigating')) {
             e.preventDefault();
             const focused = treeEl.querySelector('.tree-item.keyboard-focus');
             if (!focused) return;
@@ -396,7 +448,7 @@ body[data-navigating] #search:focus {
                     moveSelection(1);
                 }
             }
-        } else if (e.key === 'ArrowLeft') {
+        } else if (e.key === 'ArrowLeft' && document.body.hasAttribute('data-navigating')) {
             e.preventDefault();
             const focused = treeEl.querySelector('.tree-item.keyboard-focus');
             if (!focused) return;
@@ -432,11 +484,25 @@ body[data-navigating] #search:focus {
         }, 200);
     });
 
+    btnCase.addEventListener('click', () => {
+        caseSensitive = !caseSensitive;
+        btnCase.classList.toggle('active', caseSensitive);
+        const q = searchInput.value.trim();
+        if (rawTreeData && q) {
+            treeData = filterTree(rawTreeData, q);
+            initOpenState(treeData);
+        }
+        render();
+        searchInput.focus();
+    });
+
     // TypeScript側からの結果受信
     window.addEventListener('message', (event) => {
         const msg = event.data;
         if (msg.command === 'searchResult') {
-            treeData = msg.tree;
+            rawTreeData = msg.tree;
+            const q = searchInput.value.trim();
+            treeData = rawTreeData ? (caseSensitive ? filterTree(rawTreeData, q) : rawTreeData) : null;
             if (treeData) initOpenState(treeData);
             render();
         } else if (msg.command === 'focusSearch') {
@@ -494,8 +560,14 @@ export class FilePickerProvider implements vscode.WebviewViewProvider {
     }
 
     private async _search(query: string): Promise<FileNode[]> {
-        const pattern = `**/*${query}*`;
-        const uris = await vscode.workspace.findFiles(pattern, '**/node_modules/**', 100);
+        // 各文字を {a,A} 形式に変換して大文字小文字を区別しない検索
+        const caseInsensitive = query.split('').map(c => {
+            const lo = c.toLowerCase();
+            const hi = c.toUpperCase();
+            return lo === hi ? c : `{${lo},${hi}}`;
+        }).join('');
+        const pattern = `**/*${caseInsensitive}*`;
+        const uris = await vscode.workspace.findFiles(pattern, '**/node_modules/**', 500);
         if (uris.length === 0) return [];
         return buildTreeFromUris(uris);
     }

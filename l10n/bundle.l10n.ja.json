@@ -14,5 +14,6 @@
     "Enter memo name": "メモ名を入力",
     "Search to find files": "検索してファイルを探します",
     "No files found": "見つかりませんでした",
-    "Search files...": "ファイルを検索..."
+    "Search files...": "ファイルを検索...",
+    "Match Case": "大文字と小文字を区別する"
 }
