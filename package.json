@@ -29,6 +29,11 @@
 					"id": "memoExplorer",
 					"title": "%memoExplorer.container.title%",
 					"icon": "resources/memo-explorer.svg"
+				},
+				{
+					"id": "filePicker",
+					"title": "%filePicker.container.title%",
+					"icon": "resources/file-picker.svg"
 				}
 			]
 		},
@@ -38,6 +43,13 @@
 					"type": "webview",
 					"id": "memoExplorer.view",
 					"name": "%memoExplorer.view.name%"
+				}
+			],
+			"filePicker": [
+				{
+					"type": "webview",
+					"id": "filePicker.view",
+					"name": "%filePicker.view.name%"
 				}
 			]
 		},
