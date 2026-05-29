@@ -7,6 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 - Add `stand: Close All Except Markdown` command
 - Add `fluent Icon Preview` setting for .cs and .xaml files
+- Add `stand: Fluent Icon Viewer` command
 
 ## [0.1.1] - 2026-05-28
 

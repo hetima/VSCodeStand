@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { closeAllExceptMdCommand } from './command/closeAllExceptMd';
 import { convertToWorkspaceCommand } from './command/convertToWorkspace';
 import { activateFluentIconPreview } from './command/fluentIconPreview';
+import { registerFluentIconViewerCommand } from './command/fluentIconViewer';
 import { newMemoCommand } from './command/newMemo';
 import { selectMemoDirCommand } from './command/selectMemoDir';
 import { selectWorkspaceDirCommand } from './command/selectWorkspaceDir';
@@ -41,4 +42,5 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(selectMemoDirCmd, selectWorkspaceDirCmd, newMemoCmd, newMemoFromSelectionCmd, convertToWorkspaceCmd, closeAllExceptMdCmd);
 
 	activateFluentIconPreview(context);
+	registerFluentIconViewerCommand(context);
 }

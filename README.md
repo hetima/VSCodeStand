@@ -33,6 +33,7 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 
 - Command that close all tab ecept markdown, pinned and unsaved
 - Preview Fluent Icon glyphs in .cs and .xaml files
+- Searchable grid viewer for Fluent Icons
 
 ![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
 
@@ -46,6 +47,7 @@ The generated file comes pre-filled with `vscode-stand.workspaceMainFolder` (use
 | `stand: Select Memo Folder` | Select a memo folder and save it to global settings |
 | `stand: Select Workspace Folder` | Select a workspace folder and save it to global settings |
 | `stand: Close All Except Markdown` | Close all tab ecept markdown, pinned and unsaved |
+| `stand: Fluent Icon Viewer` | Open a searchable grid viewer for Fluent Icons |
 
 ## Settings
 

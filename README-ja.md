@@ -32,6 +32,7 @@
 
 - Markdown、ピン留めされたタブ、未保存のタブを除くすべてのタブを閉じるコマンド
 - .csおよび.xamlファイルで Fluent Icon コードポイントのグリフをプレビュー
+- Fluent Icons を表示・検索するビューア
 
 ![stand01.gif (800×450)](https://raw.githubusercontent.com/hetima/VSCodeStand/main/assets/stand01.gif)
 
@@ -45,6 +46,7 @@
 | `stand: Select Memo Folder` | メモフォルダを選択してグローバル設定に保存 |
 | `stand: Select Workspace Folder` | ワークスペースフォルダを選択してグローバル設定に保存 |
 | `stand: Close All Except Markdown` | Markdown、ピン留めされたタブ、未保存のタブを除くすべてのタブを閉じる |
+| `stand: Fluent Icon Viewer` | Fluent Icons を表示・検索するビューアを開く |
 
 ## 設定
 

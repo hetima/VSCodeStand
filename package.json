@@ -47,6 +47,10 @@
 			{
 				"command": "extension.closeAllExceptMd",
 				"title": "%extension.closeAllExceptMd.title%"
+			},
+			{
+				"command": "extension.fluentIconViewer",
+				"title": "%extension.fluentIconViewer.title%"
 			}
 		],
 		"menus": {
